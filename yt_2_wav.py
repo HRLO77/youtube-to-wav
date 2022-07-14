@@ -1,6 +1,7 @@
 import re
 import os
 import pathlib
+import youtube_dl
 
 download = '/tmp'
 # if not os.path.isdir(download):
@@ -22,7 +23,7 @@ def copy(file: str, path: str):
             f.write(b)
 
 # regex
-pattern = '(((https?://)?(m\.)?)|((https?://)?(www\.)?))?youtu\.?be\.com((/watch\?v=[a-zA-Z0-9]{11}){1}|(/([a-zA-Z0-9]){11}){1})?'
+pattern = '(((https?://)?(m\.)?)|((https?://)?(www\.)?))?youtu\.?be\.com((/watch\?v=([a-zA-Z0-9]|-){11}){1}|(/([a-zA-Z0-9]|-){11}){1})?'
 while True:
     try:
         s = input('Enter a youtube url to download: ')
