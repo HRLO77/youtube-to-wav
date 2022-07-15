@@ -23,23 +23,27 @@ def copy(file: str, path: str):
             f.write(b)
 
 # regex
-pattern = '(((https?://)?(m\.)?)|((https?://)?(www\.)?))?youtu\.?be\.com((/watch\?v=([a-zA-Z0-9]|-){11}){1}|(/([a-zA-Z0-9]|-){11}){1})?'
+pattern = r'(((https?://)?(m\.)?)|((https?://)?))?youtu\.?be\.com((/watch\?v=([a-zA-Z0-9]|-){11}){1}|(/([a-zA-Z0-9]|-){11}){1})?'
 while True:
     try:
         s = input('Enter a youtube url to download: ')
+        s = s.replace('https://', '').replace('http://', '').replace('www.', '')
+        s = 'https://'+s
+        print(s)
         r = re.search(pattern, s)
         assert not r is None
     except AssertionError:
-        print('Enter a valid youtube url.')
+        print('Enter a valid youtube url.')#https://www.youtube.com/watch?v=jOpzP33_USs
     else:
-        s = s[r.span()[0]:r.span()[1]]  # filtering purposes
         break
+
 
 ydl_opts = {
     'format': 'bestaudio/best',
     'postprocessors': [{
         'key': 'FFmpegExtractAudio',
         'preferredcodec': 'wav',
+
     }],
 }
 with youtube_dl.YoutubeDL(ydl_opts) as ydl:
@@ -51,4 +55,4 @@ for file in os.listdir("./"):
         os.remove(file)
 
 
-print('Done!')
+input('Done!')
